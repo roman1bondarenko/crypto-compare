@@ -10,7 +10,7 @@ import { DisplayPrice } from '../entities/displayPrice';
 import { FsymsI } from 'src/interfaces/cryptocampare.interface';
 import IORedis from 'ioredis';
 
-const connection = new IORedis();
+const connection = new IORedis({ host: 'redis' });
 
 const queue = new Queue('Price', { connection: connection });
 
