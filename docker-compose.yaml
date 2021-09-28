@@ -1,0 +1,35 @@
+version: "3"
+networks:
+  api_server_default:
+    external: true
+services:
+  redis:
+    image: redislabs/redismod
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password6^R
+      - MYSQL_DATABASE=testDevelopment
+
+  app:
+    build: ./
+    depends_on:
+      - redis
+      - db
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - CRYPTOCOMPARE_KEY=65c30e3020beca43a122f7f1dbfbeefc60ad5eb20b23c29205eaf2e720897436
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password6^R
+      - DATABASE_NAME=testDevelopment
+      - DATABASE_PORT=3306
